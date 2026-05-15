@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | MaVi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <div class="logo">MaVi</div>
+        <div class="nav-links">
+            <a href="user-dashboard.html">Home</a>
+            <div class="user-info">
+                <span class="user-name" id="userNameDisplay">User</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">U</div>
+        <h2 id="profileName" style="text-align: center;">User Name</h2>
+        <div class="profile-info">
+            <div class="info-row">
+                <div class="info-label">Name</div>
+                <div class="info-value">
+                    <span id="displayName"></span>
+                    <button class="btn-secondary" onclick="enableEdit('name')" style="margin-left: 1rem; padding: 4px 12px;">Edit</button>
+                    <div id="editNameField" style="display: none; margin-top: 10px;">
+                        <input type="text" id="editName" class="edit-input">
+                        <button onclick="saveName()" class="btn-primary" style="margin-top: 8px;">Save</button>
+                        <button onclick="cancelEdit('name')" class="btn-secondary" style="margin-top: 8px;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Email</div>
+                <div class="info-value" id="displayEmail"></div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Password</div>
+                <div class="info-value">
+                    <span>••••••••</span>
+                    <button class="btn-secondary" onclick="enableEdit('password')" style="margin-left: 1rem; padding: 4px 12px;">Change</button>
+                    <div id="editPasswordField" style="display: none; margin-top: 10px;">
+                        <input type="password" id="editPassword" class="edit-input" placeholder="New password">
+                        <input type="password" id="confirmPassword" class="edit-input" placeholder="Confirm password" style="margin-top: 8px;">
+                        <button onclick="savePassword()" class="btn-primary" style="margin-top: 8px;">Save</button>
+                        <button onclick="cancelEdit('password')" class="btn-secondary" style="margin-top: 8px;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Member Since</div>
+                <div class="info-value" id="memberSince">Today</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    async function loadProfile() {
+        const user = checkAuth();
+        if (!user) return;
+        document.getElementById('profileName').innerHTML = user.fullname;
+        document.getElementById('displayName').innerHTML = user.fullname;
+        document.getElementById('displayEmail').innerHTML = user.email;
+        document.getElementById('userNameDisplay').innerHTML = user.fullname;
+        document.getElementById('profileAvatar').innerHTML = getInitials(user.fullname);
+        document.getElementById('memberSince').innerHTML = new Date().toLocaleDateString();
+    }
+    
+    let currentEditing = null;
+    
+    function enableEdit(field) {
+        currentEditing = field;
+        if (field === 'name') {
+            document.getElementById('editName').value = document.getElementById('displayName').innerHTML;
+            document.getElementById('displayName').style.display = 'none';
+            document.getElementById('editNameField').style.display = 'block';
+        } else if (field === 'password') {
+            document.getElementById('editPasswordField').style.display = 'block';
+        }
+    }
+    
+    function cancelEdit(field) {
+        if (field === 'name') {
+            document.getElementById('displayName').style.display = 'block';
+            document.getElementById('editNameField').style.display = 'none';
+        } else if (field === 'password') {
+            document.getElementById('editPasswordField').style.display = 'none';
+            document.getElementById('editPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+        currentEditing = null;
+    }
+    
+    async function saveName() {
+        const newName = document.getElementById('editName').value.trim();
+        if (!newName) {
+            showToast('Name cannot be empty', 'error');
+            return;
+        }
+        const user = getCurrentUser();
+        const result = await updateUserProfile(user.id, { fullname: newName });
+        if (result.success) {
+            showToast('Name updated successfully', 'success');
+            document.getElementById('displayName').innerHTML = newName;
+            document.getElementById('profileName').innerHTML = newName;
+            document.getElementById('userNameDisplay').innerHTML = newName;
+            document.getElementById('profileAvatar').innerHTML = getInitials(newName);
+            cancelEdit('name');
+        } else {
+            showToast(result.error || 'Update failed', 'error');
+        }
+    }
+    
+    async function savePassword() {
+        const newPassword = document.getElementById('editPassword').value;
+        const confirm = document.getElementById('confirmPassword').value;
+        if (newPassword.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        if (newPassword !== confirm) {
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+        const user = getCurrentUser();
+        const result = await updateUserProfile(user.id, { password: newPassword });
+        if (result.success) {
+            showToast('Password updated successfully', 'success');
+            cancelEdit('password');
+        } else {
+            showToast(result.error || 'Update failed', 'error');
+        }
+    }
+    
+    loadProfile();
+</script>
+</body>
+</html>

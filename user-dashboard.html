@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaVi | SRE Managed Services – 99.99% Uptime</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Dark Theme (Default) */
+            --bg-primary: #020617;
+            --bg-secondary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-primary: #22c55e;
+            --accent-secondary: #06b6d4;
+            --border-color: #334155;
+            --gradient: linear-gradient(135deg, #22c55e, #06b6d4);
+            --header-bg: rgba(2, 6, 23, 0.95);
+            --shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+        }
+        
+        body.light-theme {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --accent-primary: #16a34a;
+            --accent-secondary: #0891b2;
+            --border-color: #e2e8f0;
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        
+        /* Scroll Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-primary);
+        }
+        
+        /* Quote Button */
+        .quote-btn-header {
+            background: var(--gradient);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quote-btn-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-card);
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .user-name {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #ef4444;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            background: radial-gradient(circle at 10% 20%, var(--bg-secondary), var(--bg-primary));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);
+            animation: rotateBg 30s linear infinite;
+        }
+        
+        @keyframes rotateBg {
+            0% { transform: translate(-25%, -25%) rotate(0deg); }
+            100% { transform: translate(-25%, -25%) rotate(360deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .badge {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-primary);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            max-width: 800px;
+            margin: 0 auto 1rem;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .hero-stats > div {
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: calc(var(--i, 0) * 0.1s);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-alt {
+            background: var(--bg-secondary);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.4rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 0.8rem auto 0;
+            border-radius: 4px;
+            animation: expandWidth 0.6s ease;
+        }
+        
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+        
+        /* Cards */
+        .cards-grid, .offerings-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 2rem;
+            width: 320px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-primary);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Goals Grid */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+        
+        .goal-item {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.8rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .goal-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .goal-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 32px;
+            padding: 2rem;
+            width: 500px;
+            max-width: 90%;
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-content h2 {
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+        
+        .close-modal {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: white;
+            z-index: 2000;
+            animation: slideInRight 0.3s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .toast.success { background: #22c55e; }
+        .toast.error { background: #ef4444; }
+        
+        /* AI Block */
+        .ai-block {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: var(--bg-card);
+            border-radius: 40px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Case Study */
+        .case-study-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .case-card {
+            flex: 1;
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Trusted Stack */
+        .trusted-stack {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .stack-item {
+            background: var(--bg-secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .stack-item:hover {
+            transform: translateY(-3px);
+            background: var(--accent-primary);
+            color: white;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            background: var(--bg-card);
+            border-radius: 48px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .hero h1 { font-size: 2rem; }
+            .nav-inner { flex-direction: column; }
+            .section-header h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <div class="logo" onclick="scrollToSection('home')">MaVi</div>
+        <div class="nav-links">
+            <a onclick="scrollToSection('home')">Home</a>
+            <a onclick="scrollToSection('about')">About</a>
+            <a onclick="scrollToSection('services')">Services</a>
+            <a onclick="scrollToSection('casestudies')">Case Studies</a>
+            <a onclick="scrollToSection('contact')">Contact</a>
+            <button class="quote-btn-header" onclick="openQuoteModal()"><i class="fas fa-file-invoice"></i> Request Quote</button>
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </div>
+            <div class="user-info">
+                <span class="user-name" id="userNameDisplay">User</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="container hero-content">
+        <div class="badge">⚡ Reliability Protocols Active</div>
+        <h1>We help startups & businesses achieve <span style="color: var(--accent-primary);">99.99% uptime</span> with our SRE managed services.</h1>
+        <p>Maxi Vision bridges the gap between Web Development and Site Reliability. We engineer ultra-fast, secure, and scalable platforms trusted by startups and enterprises.</p>
+        <button class="btn-primary" onclick="openQuoteModal()">Get a Free Quote →</button>
+        <div class="hero-stats">
+            <div style="--i:0"><div class="stat-number">99.99%</div><div>Uptime SLA</div></div>
+            <div style="--i:1"><div class="stat-number">↓85%</div><div>MTTR Reduction</div></div>
+            <div style="--i:2"><div class="stat-number">24/7</div><div>Global Coverage</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Corporate DNA</h2>
+            <p>Who we are and what drives us</p>
+        </div>
+        <div class="fade-up" style="background: var(--bg-card); border-radius: 28px; padding: 2.5rem; margin-bottom: 2rem; border: 1px solid var(--border-color);">
+            <div style="font-size: 1.2rem; line-height: 1.6; font-style: italic; border-left: 4px solid var(--accent-primary); padding-left: 1.5rem; color: var(--text-secondary);">
+                "Maxi Vision is a high-performance Site Reliability Engineering (SRE) and Web Development startup that bridges the gap between 'shipping code' and 'staying online.' We specialize in building and protecting digital infrastructure for scaling startups and established enterprises."
+            </div>
+        </div>
+        <div class="cards-grid">
+            <div class="card fade-up">
+                <div class="card-icon">⚙️</div>
+                <h3>Automated Operations</h3>
+                <p>Eliminating manual 'toil' through intelligent scripts and self-healing systems.</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">📈</div>
+                <h3>Scalable Architecture</h3>
+                <p>Ensuring your systems grow as fast as your user base without performance lag.</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">🔒</div>
+                <h3>Maximum Uptime</h3>
+                <p>Engineering reliability into the very fabric of your digital ecosystem.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Strategic Execution -->
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Strategic Execution</h2>
+            <p>Our SRE methodology in action</p>
+        </div>
+        <div class="goals-grid">
+            <div class="goal-item fade-up"><div class="goal-number">01</div><h3>Observability & Monitoring</h3><p>Building "single panes of glass" using Grafana, Prometheus, or Datadog for real-time insights.</p><div class="enterprise-tag">Enterprise Ready</div></div>
+            <div class="goal-item fade-up"><div class="goal-number">02</div><h3>Incident Management</h3><p>24/7 proactive response protocols using PagerDuty or Opsgenie to minimize downtime.</p><div class="enterprise-tag">Enterprise Ready</div></div>
+            <div class="goal-item fade-up"><div class="goal-number">03</div><h3>Infrastructure as Code</h3><p>Automating environments with Terraform or Ansible for repeatable deployments.</p><div class="enterprise-tag">Enterprise Ready</div></div>
+            <div class="goal-item fade-up"><div class="goal-number">04</div><h3>Performance Engineering</h3><p>Continuous optimization of code and cloud resources to maximize speed.</p><div class="enterprise-tag">Enterprise Ready</div></div>
+            <div class="goal-item fade-up"><div class="goal-number">05</div><h3>Cloud-Native Scaling</h3><p>Architecting systems to handle traffic surges from 100 to 1M+ users seamlessly.</p><div class="enterprise-tag">Enterprise Ready</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Our Expertise</h2>
+            <p>Future-proof engineering & managed services</p>
+        </div>
+        <div id="servicesContainer" class="offerings-grid">
+            <div class="loading-spinner">Loading services...</div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Catalog -->
+<section class="section section-alt">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Service Catalog</h2>
+            <p>Support & Monitoring — operational coverage with modern tooling</p>
+        </div>
+        <div class="catalog-table fade-up" style="overflow-x: auto; background: var(--bg-card); border-radius: 24px; border: 1px solid var(--border-color);">
+            <table style="width:100%; border-collapse:collapse;">
+                <thead><tr><th style="padding:1rem;">Service Stream</th><th style="padding:1rem;">Operational Coverage</th><th style="padding:1rem;">Tooling & Stack</th></tr></thead>
+                <tbody>
+                    <tr><td style="padding:1rem; border-bottom:1px solid var(--border-color);">IT Infrastructure Monitoring</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);">24×7 server uptime, CPU/memory alerts</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);"><span class="tech-badge">Prometheus</span><span class="tech-badge">Grafana</span><span class="tech-badge">Zabbix</span></td></tr>
+                    <tr><td style="padding:1rem; border-bottom:1px solid var(--border-color);">Application & Website Monitoring</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);">API uptime, response time alerts</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);"><span class="tech-badge">Pingdom</span><span class="tech-badge">New Relic</span><span class="tech-badge">Datadog</span></td></tr>
+                    <tr><td style="padding:1rem; border-bottom:1px solid var(--border-color);">Cloud / DevOps Support</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);">AWS, Azure, GCP, Cost Optimization</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);"><span class="tech-badge">AWS</span><span class="tech-badge">Azure</span><span class="tech-badge">GCP</span><span class="tech-badge">Terraform</span></td></tr>
+                    <tr><td style="padding:1rem; border-bottom:1px solid var(--border-color);">SRE / Managed Services</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);">Proactive incident management, on-call rotation</td><td style="padding:1rem; border-bottom:1px solid var(--border-color);"><span class="tech-badge">Kubernetes</span><span class="tech-badge">Terraform</span><span class="tech-badge">Ansible</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- AI Advantage -->
+<section class="section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Intelligence Layer</h2>
+            <p>The MaVi AI Advantage</p>
+        </div>
+        <div class="ai-block fade-up">
+            <div style="flex:2;">
+                <h2 style="font-size:1.8rem;">🧠 Smart Alert Aggregation</h2>
+                <p>"When a server goes down, it often sends hundreds of different alerts. Our AI tools group these into one single 'Root Cause' incident."</p>
+                <div style="background: var(--bg-secondary); border-radius: 20px; padding:1rem; margin:1rem 0;">
+                    <span style="color:#f87171;">⚠️ Before: 450 alerts sent to the CEO's phone.</span><br>→ <span style="color:var(--accent-primary);">✅ After: 1 clean notification: 'DB auto-restarted. Zero impact.'</span>
+                </div>
+                <p><strong style="color:var(--accent-primary);">AI-Powered Log Analysis</strong> — scans thousands of lines in seconds, finds the needle in the haystack.</p>
+            </div>
+            <div class="ai-stats" style="flex:1; background: var(--bg-secondary); border-radius:28px; padding:1.5rem; text-align:center;">
+                <div class="stat-number">↓85%</div><p>MTTR Reduction</p>
+                <div class="stat-number" style="margin-top:1rem;">99%</div><p>Alert Noise Reduction</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Case Studies Section -->
+<section id="casestudies" class="section section-alt">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>Operational Success</h2>
+            <p>INFRASTRUCTURE CLUSTER — Before SRE vs After Monitronix</p>
+        </div>
+        <div class="case-study-grid">
+            <div class="case-card fade-up"><h3 style="color:#f87171;">📉 BEFORE_SRE</h3><p>"System instability caused 450+ alerts during peak hours. Engineer burnout, slow MTTR."</p></div>
+            <div class="case-card fade-up" style="border-color:var(--accent-primary);"><h3 style="color:var(--accent-primary);">🚀 AFTER_MONITRONIX</h3><p>"Intelligent noise reduction. Zero engineer fatigue. 99.99% uptime achieved."</p><div class="case-metrics" style="display:flex; gap:1.5rem; margin-top:1.5rem;"><div><div class="stat-number">↓85%</div><div>MTTR</div></div><div><div class="stat-number">↓99%</div><div>Alert Volume</div></div><div><div class="stat-number">ZERO</div><div>Customer Impact</div></div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Trusted Stack -->
+<section class="section">
+    <div class="container">
+        <div class="section-header fade-up">
+            <h2>The Monitronix Stack</h2>
+            <p>Trusted by industry standards — reliability through world-class tooling</p>
+        </div>
+        <div class="trusted-stack">
+            <div class="stack-category"><h4>☁️ Cloud</h4><div class="stack-items"><span class="stack-item">AWS</span><span class="stack-item">Azure</span><span class="stack-item">GCP</span></div></div>
+            <div class="stack-category"><h4>🐳 Containers</h4><div class="stack-items"><span class="stack-item">K8s</span><span class="stack-item">Docker</span></div></div>
+            <div class="stack-category"><h4>📊 Monitoring</h4><div class="stack-items"><span class="stack-item">Prometheus</span><span class="stack-item">Grafana</span></div></div>
+            <div class="stack-category"><h4>⚙️ Automation</h4><div class="stack-items"><span class="stack-item">Terraform</span><span class="stack-item">Jenkins</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section section-alt">
+    <div class="container">
+        <div class="contact-section fade-up">
+            <h2 style="font-size:2rem;">Talk to our SRE team today</h2>
+            <p style="color: var(--text-secondary);">24×7 coverage, global support, onboarding within 3–5 days. Guaranteed SLAs with detailed reporting.</p>
+            <div class="contact-features" style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; margin:2rem 0;">
+                <div>🕐 24×7 SRE coverage</div><div>💰 Cost-effective</div><div>⚡ 3–5 day onboarding</div><div>📋 Guaranteed SLAs</div>
+            </div>
+            <button class="btn-primary" onclick="openQuoteModal()">Request SRE Consultation →</button>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-links"><a onclick="scrollToSection('home')">Home</a><a onclick="scrollToSection('about')">About</a><a onclick="scrollToSection('services')">Services</a><a onclick="scrollToSection('casestudies')">Case Studies</a><a onclick="scrollToSection('contact')">Contact</a></div>
+        <div class="logo" style="margin-bottom:0.5rem;">MaVi</div>
+        <p>Site Reliability Engineering · DevOps · Cloud-Native</p>
+        <p>© 2026 Maxi Vision — reliability first.</p>
+    </div>
+</footer>
+
+<!-- Quote Modal -->
+<div id="quoteModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuoteModal()">&times;</span>
+        <h2><i class="fas fa-file-invoice"></i> Request a Quote</h2>
+        <p>Tell us about your requirements and we'll get back to you within 24 hours</p>
+        <form id="quotationForm">
+            <div class="form-group"><label>Full Name</label><input type="text" id="quoteName" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="quoteEmail" required></div>
+            <div class="form-group"><label>Service Interested In</label><select id="quoteService" required><option value="">Select a service</option><option value="DevOps Automation">DevOps Automation</option><option value="Cloud Migration">Cloud Migration</option><option value="SRE Consulting">SRE Consulting</option><option value="Monitoring Setup">Monitoring Setup</option><option value="Custom Solution">Custom Solution</option></select></div>
+            <div class="form-group"><label>Project Details</label><textarea id="quoteMessage" rows="3" placeholder="Describe your requirements..." required></textarea></div>
+            <div class="form-group"><label>Budget Range</label><select id="quoteBudget"><option>Under $5,000</option><option>$5,000 - $10,000</option><option>$10,000 - $25,000</option><option>$25,000+</option></select></div>
+            <button type="submit" class="btn-primary">Submit Request</button>
+        </form>
+        <div id="quoteModalMessage" style="margin-top:1rem; text-align:center;"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    // Theme Toggle
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-theme');
+    
+    // Scroll Animations
+    function checkScroll() {
+        document.querySelectorAll('.fade-up').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) el.classList.add('visible');
+        });
+    }
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
+    
+    function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+    
+    // Quote Modal
+    function openQuoteModal() { document.getElementById('quoteModal').style.display = 'flex'; }
+    function closeQuoteModal() { document.getElementById('quoteModal').style.display = 'none'; }
+    
+    async function loadUserInfo() {
+        const user = getCurrentUser();
+        if (!user) return;
+        document.getElementById('userNameDisplay').innerHTML = user.fullname || user.email;
+        const nameInput = document.getElementById('quoteName');
+        const emailInput = document.getElementById('quoteEmail');
+        if (nameInput) nameInput.value = user.fullname || '';
+        if (emailInput) emailInput.value = user.email || '';
+    }
+    
+    async function loadServices() {
+        const container = document.getElementById('servicesContainer');
+        container.innerHTML = '<div class="loading-spinner">Loading services...</div>';
+        const services = await getAllServices();
+        if (!services || services.length === 0) {
+            container.innerHTML = '<div class="loading-spinner">No services available</div>';
+            return;
+        }
+        container.innerHTML = services.slice(0, 7).map(service => `
+            <div class="card">
+                <div class="card-icon">${service.icon || '🔧'}</div>
+                <h3>${escapeHtml(service.title)}</h3>
+                <p>${escapeHtml((service.description || '').substring(0, 100))}${(service.description || '').length > 100 ? '...' : ''}</p>
+                <div style="margin-top: 1rem; color: var(--accent-primary); font-weight: 600;">$${service.price?.toLocaleString() || 0}</div>
+            </div>
+        `).join('');
+    }
+    
+    document.getElementById('quotationForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = getCurrentUser();
+        const result = await submitQuotation({
+            userId: user?.id,
+            userName: document.getElementById('quoteName').value,
+            userEmail: document.getElementById('quoteEmail').value,
+            serviceType: document.getElementById('quoteService').value,
+            message: document.getElementById('quoteMessage').value,
+            budget: document.getElementById('quoteBudget').value
+        });
+        const msgDiv = document.getElementById('quoteModalMessage');
+        if (result.success) {
+            msgDiv.innerHTML = '<span style="color:#22c55e;">✓ Request submitted! We\'ll contact you within 24 hours.</span>';
+            setTimeout(() => { closeQuoteModal(); msgDiv.innerHTML = ''; }, 2000);
+        } else {
+            msgDiv.innerHTML = '<span style="color:#ef4444;">✗ Failed to submit. Please try again.</span>';
+            setTimeout(() => msgDiv.innerHTML = '', 3000);
+        }
+    });
+    
+    window.onclick = function(e) { if (e.target === document.getElementById('quoteModal')) closeQuoteModal(); };
+    
+    loadUserInfo();
+    loadServices();
+</script>
+</body>
+</html>
