@@ -68,7 +68,7 @@
             transform: translateY(0);
         }
         
-        /* Navbar */
+        /* ========== NAVBAR WITH ANIMATED LOGO ========== */
         .navbar {
             background: var(--header-bg);
             backdrop-filter: blur(10px);
@@ -77,7 +77,6 @@
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid var(--border-color);
-            transition: all 0.3s ease;
         }
         
         .nav-inner {
@@ -91,19 +90,50 @@
             gap: 1rem;
         }
         
-        .logo {
+        /* Animated Logo */
+        .animated-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(34,197,94,0.3);
+        }
+        
+        .logo-icon i {
+            font-size: 1.3rem;
+            color: white;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 5px rgba(34,197,94,0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 20px rgba(34,197,94,0.6); transform: scale(1.02); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .logo-text {
             font-size: 1.8rem;
             font-weight: 800;
             background: var(--gradient);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .logo:hover {
-            transform: scale(1.05);
+            letter-spacing: -0.5px;
         }
         
         .nav-links {
@@ -140,25 +170,6 @@
         .nav-links a:hover {
             color: var(--accent-primary);
             transform: translateY(-2px);
-        }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 40px;
-            padding: 8px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            border-color: var(--accent-primary);
         }
         
         /* Quote Button */
@@ -214,7 +225,7 @@
         .btn-primary {
             background: var(--gradient);
             color: white;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 40px;
             font-weight: 600;
             border: none;
@@ -224,14 +235,31 @@
         
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
         }
         
-        /* Hero Section */
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid var(--accent-primary);
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--accent-primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+        }
+        
+        /* ========== HERO SECTION (two‑column) ========== */
         .hero {
-            padding: 100px 0;
+            padding: 80px 0;
             background: radial-gradient(circle at 10% 20%, var(--bg-secondary), var(--bg-primary));
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -250,21 +278,19 @@
             100% { transform: translate(-25%, -25%) rotate(360deg); }
         }
         
-        .hero-content {
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
             position: relative;
             z-index: 2;
-            animation: fadeInUp 0.8s ease;
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero-content {
+            flex: 1;
+            min-width: 280px;
         }
         
         .badge {
@@ -274,20 +300,78 @@
             border-radius: 50px;
             display: inline-block;
             margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
             border: 1px solid rgba(34, 197, 94, 0.3);
-            font-weight: 500;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
         }
         
         .hero h1 {
             font-size: 3.2rem;
-            max-width: 800px;
-            margin: 0 auto 1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 span {
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 550px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .trusted-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 32px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* ========== STATS SECTION (Restored) ========== */
+        .stats-section {
+            background: var(--bg-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
             background: var(--gradient);
             background-clip: text;
             -webkit-background-clip: text;
@@ -295,33 +379,10 @@
             line-height: 1.2;
         }
         
-        .hero p {
-            font-size: 1.2rem;
+        .stat-label {
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 1.5rem;
-        }
-        
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .hero-stats > div {
-            animation: fadeInUp 0.6s ease forwards;
-            animation-delay: calc(var(--i, 0) * 0.1s);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            background: var(--gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            margin-top: 0.5rem;
         }
         
         /* Section Styles */
@@ -396,7 +457,6 @@
             transform: scale(1.1);
         }
         
-        /* Goals Grid */
         .goals-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -424,6 +484,17 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+        }
+        
+        .enterprise-tag {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 1rem;
         }
         
         /* Modal */
@@ -483,7 +554,6 @@
             transform: scale(1.2);
         }
         
-        /* Form Styles */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -510,33 +580,16 @@
             box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
         }
         
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 12px 24px;
-            border-radius: 12px;
-            color: white;
-            z-index: 2000;
-            animation: slideInRight 0.3s ease;
+        .tech-badge {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin: 0.2rem;
         }
         
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        .toast.success { background: #22c55e; }
-        .toast.error { background: #ef4444; }
-        
-        /* AI Block */
         .ai-block {
             display: flex;
             flex-wrap: wrap;
@@ -547,7 +600,6 @@
             border: 1px solid var(--border-color);
         }
         
-        /* Case Study */
         .case-study-grid {
             display: flex;
             flex-wrap: wrap;
@@ -568,7 +620,6 @@
             box-shadow: var(--shadow);
         }
         
-        /* Trusted Stack */
         .trusted-stack {
             display: flex;
             flex-wrap: wrap;
@@ -589,7 +640,55 @@
             color: white;
         }
         
-        /* Contact Section */
+        .newsletter-section {
+            background: var(--bg-secondary);
+            text-align: center;
+            padding: 60px 0;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .newsletter-form input {
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            width: 280px;
+        }
+        
+        .newsletter-form button {
+            background: var(--gradient);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .newsletter-message {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+        
+        .newsletter-message.success {
+            color: var(--accent-primary);
+            display: block;
+        }
+        
+        .newsletter-message.error {
+            color: #ef4444;
+            display: block;
+        }
+        
         .contact-section {
             background: var(--bg-card);
             border-radius: 48px;
@@ -598,48 +697,340 @@
             border: 1px solid var(--border-color);
         }
         
-        /* Footer */
         .footer {
             background: var(--bg-secondary);
-            padding: 3rem 0;
-            text-align: center;
+            padding: 3rem 0 2rem;
             border-top: 1px solid var(--border-color);
         }
         
-        .footer-links {
-            display: flex;
-            justify-content: center;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
+            margin-bottom: 2rem;
         }
         
-        .footer-links a {
+        .footer-col h4 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.6rem;
+        }
+        
+        .footer-col ul li a {
             color: var(--text-secondary);
             text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
         
-        .footer-links a:hover {
+        .footer-col ul li a:hover {
             color: var(--accent-primary);
-            transform: translateY(-2px);
         }
         
-        /* Responsive */
+        .footer-col p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        
+        .footer-bottom a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+        
+        /* ========== FLOATING CONTROLS (Theme Toggle + AI Assistant) ========== */
+        .floating-controls {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        
+        /* Switch Theme Toggle - EXTRA SMALL */
+        .theme-switch-container {
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            padding: 3px 6px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+        
+        .switch-wrapper:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-primary);
+        }
+        
+        .switch-label {
+            font-size: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            min-width: 24px;
+        }
+        
+        .switch-toggle {
+            position: relative;
+            display: inline-block;
+            width: 28px;
+            height: 14px;
+        }
+        
+        .switch-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider-round {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #334155;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+        
+        .slider-round:before {
+            position: absolute;
+            content: "";
+            height: 10px;
+            width: 10px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider-round {
+            background: var(--gradient);
+        }
+        
+        input:checked + .slider-round:before {
+            transform: translateX(14px);
+        }
+        
+        .switch-icon {
+            font-size: 7px;
+            color: var(--text-secondary);
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: relative;
+        }
+        
+        .ai-toggle {
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .ai-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .ai-chatbox {
+            display: none;
+            position: absolute;
+            bottom: 55px;
+            right: 0;
+            width: 300px;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            flex-direction: column;
+        }
+        
+        .ai-header {
+            background: var(--gradient);
+            padding: 10px 14px;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .ai-messages {
+            height: 260px;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+        
+        .ai-message {
+            padding: 8px 12px;
+            border-radius: 16px;
+            max-width: 85%;
+            word-break: break-word;
+        }
+        
+        .ai-message.user {
+            background: var(--gradient);
+            color: white;
+            align-self: flex-end;
+        }
+        
+        .ai-message.bot {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border: 1px solid var(--border-color);
+        }
+        
+        .ai-input-area {
+            display: flex;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .ai-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            outline: none;
+            font-size: 12px;
+        }
+        
+        .ai-send {
+            background: var(--gradient);
+            border: none;
+            color: white;
+            padding: 0 14px;
+            cursor: pointer;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: var(--accent-primary);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: white;
+            z-index: 2000;
+            animation: slideInLeft 0.3s ease;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .toast.success { background: #22c55e; }
+        .toast.error { background: #ef4444; }
+        
         @media (max-width: 768px) {
             .container { padding: 0 20px; }
             .hero h1 { font-size: 2rem; }
+            .hero-grid { flex-direction: column; text-align: center; }
+            .hero-buttons { justify-content: center; }
             .nav-inner { flex-direction: column; }
             .section-header h2 { font-size: 1.8rem; }
+            .stats-grid { gap: 2rem; }
+            .stat-number { font-size: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .social-links { justify-content: center; }
+            .floating-controls { bottom: 15px; right: 15px; gap: 6px; }
+            .switch-wrapper { padding: 2px 5px; gap: 3px; }
+            .switch-toggle { width: 24px; height: 12px; }
+            .slider-round:before { height: 8px; width: 8px; }
+            input:checked + .slider-round:before { transform: translateX(12px); }
+            .switch-label { font-size: 7px; min-width: 20px; }
+            .switch-icon { font-size: 6px; }
+            .ai-toggle { padding: 6px 10px; font-size: 10px; }
         }
     </style>
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar">
     <div class="nav-inner">
-        <div class="logo" onclick="scrollToSection('home')">MaVi</div>
+        <div class="animated-logo" onclick="scrollToSection('home')">
+            <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="logo-text">MaVi</div>
+        </div>
         <div class="nav-links">
             <a onclick="scrollToSection('home')">Home</a>
             <a onclick="scrollToSection('about')">About</a>
@@ -647,10 +1038,6 @@
             <a onclick="scrollToSection('casestudies')">Case Studies</a>
             <a onclick="scrollToSection('contact')">Contact</a>
             <button class="quote-btn-header" onclick="openQuoteModal()"><i class="fas fa-file-invoice"></i> Request Quote</button>
-            <div class="theme-toggle" onclick="toggleTheme()">
-                <i class="fas fa-sun"></i>
-                <i class="fas fa-moon"></i>
-            </div>
             <div class="user-info">
                 <span class="user-name" id="userNameDisplay">User</span>
                 <button class="logout-btn" onclick="logout()">Logout</button>
@@ -661,15 +1048,39 @@
 
 <!-- Hero Section -->
 <section id="home" class="hero">
-    <div class="container hero-content">
-        <div class="badge">⚡ Reliability Protocols Active</div>
-        <h1>We help startups & businesses achieve <span style="color: var(--accent-primary);">99.99% uptime</span> with our SRE managed services.</h1>
-        <p>Maxi Vision bridges the gap between Web Development and Site Reliability. We engineer ultra-fast, secure, and scalable platforms trusted by startups and enterprises.</p>
-        <button class="btn-primary" onclick="openQuoteModal()">Get a Free Quote →</button>
-        <div class="hero-stats">
-            <div style="--i:0"><div class="stat-number">99.99%</div><div>Uptime SLA</div></div>
-            <div style="--i:1"><div class="stat-number">↓85%</div><div>MTTR Reduction</div></div>
-            <div style="--i:2"><div class="stat-number">24/7</div><div>Global Coverage</div></div>
+    <div class="container hero-grid">
+        <div class="hero-content">
+            <div class="badge">⚡ RELIABILITY PROTOCOLS ACTIVE</div>
+            <h1>We help startups & businesses achieve <span>99.99% uptime</span> with our SRE managed services.</h1>
+            <p>Maxi Vision bridges the gap between Web Development and Site Reliability. We engineer ultra-fast, secure, and scalable platforms trusted by startups and enterprises.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="window.location.href='login.html'">Secure Your Infrastructure →</button>
+                <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">View Tools</button>
+            </div>
+            <div class="trusted-text">TRUSTED BY STARTUPS AND ENTERPRISES FOR MISSION-CRITICAL INFRASTRUCTURE.</div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Startup team">
+        </div>
+    </div>
+</section>
+
+<!-- STATS SECTION (Restored) -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">99.99%</div>
+                <div class="stat-label">Uptime SLA</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">↓85%</div>
+                <div class="stat-label">MTTR Reduction</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Global Support</div>
+            </div>
         </div>
     </div>
 </section>
@@ -687,21 +1098,9 @@
             </div>
         </div>
         <div class="cards-grid">
-            <div class="card fade-up">
-                <div class="card-icon">⚙️</div>
-                <h3>Automated Operations</h3>
-                <p>Eliminating manual 'toil' through intelligent scripts and self-healing systems.</p>
-            </div>
-            <div class="card fade-up">
-                <div class="card-icon">📈</div>
-                <h3>Scalable Architecture</h3>
-                <p>Ensuring your systems grow as fast as your user base without performance lag.</p>
-            </div>
-            <div class="card fade-up">
-                <div class="card-icon">🔒</div>
-                <h3>Maximum Uptime</h3>
-                <p>Engineering reliability into the very fabric of your digital ecosystem.</p>
-            </div>
+            <div class="card fade-up"><div class="card-icon">⚙️</div><h3>Automated Operations</h3><p>Eliminating manual 'toil' through intelligent scripts and self-healing systems.</p></div>
+            <div class="card fade-up"><div class="card-icon">📈</div><h3>Scalable Architecture</h3><p>Ensuring your systems grow as fast as your user base without performance lag.</p></div>
+            <div class="card fade-up"><div class="card-icon">🔒</div><h3>Maximum Uptime</h3><p>Engineering reliability into the very fabric of your digital ecosystem.</p></div>
         </div>
     </div>
 </section>
@@ -723,7 +1122,7 @@
     </div>
 </section>
 
-<!-- Services Section -->
+<!-- Services Section (dynamic) -->
 <section id="services" class="section">
     <div class="container">
         <div class="section-header fade-up">
@@ -790,24 +1189,316 @@
         </div>
         <div class="case-study-grid">
             <div class="case-card fade-up"><h3 style="color:#f87171;">📉 BEFORE_SRE</h3><p>"System instability caused 450+ alerts during peak hours. Engineer burnout, slow MTTR."</p></div>
-            <div class="case-card fade-up" style="border-color:var(--accent-primary);"><h3 style="color:var(--accent-primary);">🚀 AFTER_MONITRONIX</h3><p>"Intelligent noise reduction. Zero engineer fatigue. 99.99% uptime achieved."</p><div class="case-metrics" style="display:flex; gap:1.5rem; margin-top:1.5rem;"><div><div class="stat-number">↓85%</div><div>MTTR</div></div><div><div class="stat-number">↓99%</div><div>Alert Volume</div></div><div><div class="stat-number">ZERO</div><div>Customer Impact</div></div></div></div>
+            <div class="case-card fade-up" style="border-color:var(--accent-primary);"><h3 style="color:var(--accent-primary);">🚀 AFTER_MONITRONIX</h3><p>"Intelligent noise reduction. Zero engineer fatigue. 99.99% uptime achieved."</p><div style="display:flex; gap:1.5rem; margin-top:1.5rem;"><div><div class="stat-number">↓85%</div><div>MTTR</div></div><div><div class="stat-number">↓99%</div><div>Alert Volume</div></div><div><div class="stat-number">ZERO</div><div>Customer Impact</div></div></div></div>
         </div>
     </div>
 </section>
 
-<!-- Trusted Stack -->
+<style>
+    /* Animated emoji keyframes */
+    @keyframes emojiFloat {
+        0% { transform: translateY(0px) rotate(0deg); opacity: 0.9; }
+        50% { transform: translateY(-6px) rotate(5deg); opacity: 1; text-shadow: 0 0 6px var(--accent-primary); }
+        100% { transform: translateY(0px) rotate(0deg); opacity: 0.9; }
+    }
+    
+    @keyframes emojiPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.15); filter: drop-shadow(0 0 4px var(--accent-primary)); }
+        100% { transform: scale(1); }
+    }
+
+    /* Vertical stack layout */
+    .trusted-stack-vertical {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .stack-card {
+        background: var(--bg-card);
+        border-radius: 28px;
+        padding: 1.2rem 1.8rem;
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        transition: all 0.25s ease;
+        cursor: default;
+        backdrop-filter: blur(2px);
+    }
+
+    .stack-card:hover {
+        transform: translateX(8px);
+        border-color: var(--accent-primary);
+        box-shadow: var(--shadow);
+    }
+
+    .stack-emoji {
+        font-size: 2.8rem;
+        min-width: 65px;
+        text-align: center;
+        animation: emojiFloat 2.2s infinite ease-in-out;
+        display: inline-block;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    /* Different animation delays for variety */
+    .stack-card:nth-child(1) .stack-emoji { animation-delay: 0s; animation-duration: 2.4s; }
+    .stack-card:nth-child(2) .stack-emoji { animation-delay: 0.3s; animation-duration: 2.1s; }
+    .stack-card:nth-child(3) .stack-emoji { animation-delay: 0.6s; animation-duration: 2.7s; }
+    .stack-card:nth-child(4) .stack-emoji { animation-delay: 0.9s; animation-duration: 2.0s; }
+
+    .stack-card:hover .stack-emoji {
+        animation: emojiPulse 0.5s ease-in-out;
+    }
+
+    .stack-content {
+        flex: 1;
+    }
+
+    .stack-content h4 {
+        font-size: 1.35rem;
+        margin-bottom: 0.4rem;
+        color: var(--text-primary);
+        font-weight: 700;
+        letter-spacing: -0.3px;
+    }
+
+    .stack-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 0.3rem;
+    }
+
+    .tech-badge-stack {
+        background: rgba(34, 197, 94, 0.12);
+        padding: 0.25rem 1rem;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--accent-primary);
+        border: 0.5px solid rgba(34,197,94,0.3);
+        transition: all 0.2s;
+    }
+
+    .tech-badge-stack:hover {
+        background: var(--accent-primary);
+        color: white;
+        transform: scale(1.02);
+    }
+
+    @media (max-width: 640px) {
+        .stack-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 1.2rem;
+        }
+        .stack-emoji {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .stack-items {
+            justify-content: center;
+        }
+    }
+</style>
+
+<!-- Trusted Stack - Horizontal Cards with Vertical Stack Items -->
+<!-- Trusted Stack - Professional Horizontal Cards with Vertical Stack Items -->
+<style>
+    /* Animated emoji keyframes */
+    @keyframes softFloat {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    @keyframes gentlePulse {
+        0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(34,197,94,0)); }
+        100% { transform: scale(1.08); filter: drop-shadow(0 0 6px var(--accent-primary)); }
+    }
+
+    /* Horizontal cards container */
+    .trusted-stack-pro {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin: 2rem 0 1rem;
+    }
+
+    /* Card – modern, clean, professional */
+    .stack-card-pro {
+        background: var(--bg-card);
+        border-radius: 28px;
+        padding: 1.8rem 1.4rem;
+        border: 1px solid var(--border-color);
+        flex: 1;
+        min-width: 210px;
+        max-width: 270px;
+        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        cursor: default;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        backdrop-filter: blur(2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .stack-card-pro:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent-primary);
+        box-shadow: 0 20px 30px -12px rgba(34, 197, 94, 0.2);
+    }
+
+    /* Emoji style */
+    .stack-emoji-pro {
+        font-size: 2.8rem;
+        animation: softFloat 2.5s infinite ease-in-out;
+        display: inline-block;
+        transition: all 0.2s;
+    }
+
+    .stack-card-pro:nth-child(1) .stack-emoji-pro { animation-delay: 0s; }
+    .stack-card-pro:nth-child(2) .stack-emoji-pro { animation-delay: 0.4s; }
+    .stack-card-pro:nth-child(3) .stack-emoji-pro { animation-delay: 0.8s; }
+    .stack-card-pro:nth-child(4) .stack-emoji-pro { animation-delay: 1.2s; }
+
+    .stack-card-pro:hover .stack-emoji-pro {
+        animation: gentlePulse 0.4s ease-out forwards;
+    }
+
+    /* Card title */
+    .stack-card-pro h4 {
+        font-size: 1.3rem;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        background: var(--gradient);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    /* Stack-items container – vertical layout */
+    .stack-items-pro {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        width: 100%;
+        margin-top: 0.3rem;
+    }
+
+    /* Professional tech badges – clean, modern, interactive */
+    .tech-badge-pro {
+        background: rgba(34, 197, 94, 0.08);
+        padding: 0.5rem 0.8rem;
+        border-radius: 60px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--accent-primary);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        transition: all 0.25s ease;
+        text-align: center;
+        display: block;
+        backdrop-filter: blur(2px);
+        letter-spacing: -0.2px;
+    }
+
+    .tech-badge-pro:hover {
+        background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(6,182,212,0.1));
+        border-color: var(--accent-primary);
+        color: var(--accent-primary);
+        transform: translateX(4px);
+        font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .stack-card-pro {
+            min-width: 230px;
+            flex: 1 1 40%;
+        }
+    }
+    @media (max-width: 550px) {
+        .stack-card-pro {
+            flex: 1 1 100%;
+            max-width: 280px;
+        }
+    }
+</style>
+
 <section class="section">
     <div class="container">
         <div class="section-header fade-up">
             <h2>The Monitronix Stack</h2>
             <p>Trusted by industry standards — reliability through world-class tooling</p>
         </div>
-        <div class="trusted-stack">
-            <div class="stack-category"><h4>☁️ Cloud</h4><div class="stack-items"><span class="stack-item">AWS</span><span class="stack-item">Azure</span><span class="stack-item">GCP</span></div></div>
-            <div class="stack-category"><h4>🐳 Containers</h4><div class="stack-items"><span class="stack-item">K8s</span><span class="stack-item">Docker</span></div></div>
-            <div class="stack-category"><h4>📊 Monitoring</h4><div class="stack-items"><span class="stack-item">Prometheus</span><span class="stack-item">Grafana</span></div></div>
-            <div class="stack-category"><h4>⚙️ Automation</h4><div class="stack-items"><span class="stack-item">Terraform</span><span class="stack-item">Jenkins</span></div></div>
+        <div class="trusted-stack-pro">
+            <!-- Cloud Card -->
+            <div class="stack-card-pro">
+                <div class="stack-emoji-pro">☁️💸</div>
+                <h4>Cloud</h4>
+                <div class="stack-items-pro">
+                    <span class="tech-badge-pro">AWS</span>
+                    <span class="tech-badge-pro">Azure</span>
+                    <span class="tech-badge-pro">GCP</span>
+                    <span class="tech-badge-pro">CloudFlare</span>
+                </div>
+            </div>
+            <!-- Containers Card -->
+            <div class="stack-card-pro">
+                <div class="stack-emoji-pro">🐳🔄</div>
+                <h4>Containers</h4>
+                <div class="stack-items-pro">
+                    <span class="tech-badge-pro">Kubernetes</span>
+                    <span class="tech-badge-pro">Docker</span>
+                    <span class="tech-badge-pro">Helm</span>
+                    <span class="tech-badge-pro">CRI-O</span>
+                </div>
+            </div>
+            <!-- Monitoring Card -->
+            <div class="stack-card-pro">
+                <div class="stack-emoji-pro">📊⚡</div>
+                <h4>Monitoring</h4>
+                <div class="stack-items-pro">
+                    <span class="tech-badge-pro">Prometheus</span>
+                    <span class="tech-badge-pro">Grafana</span>
+                    <span class="tech-badge-pro">Datadog</span>
+                    <span class="tech-badge-pro">Loki</span>
+                </div>
+            </div>
+            <!-- Automation Card -->
+            <div class="stack-card-pro">
+                <div class="stack-emoji-pro">⚙️🚀</div>
+                <h4>Automation</h4>
+                <div class="stack-items-pro">
+                    <span class="tech-badge-pro">Terraform</span>
+                    <span class="tech-badge-pro">Jenkins</span>
+                    <span class="tech-badge-pro">Ansible</span>
+                    <span class="tech-badge-pro">GitHub Actions</span>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section">
+    <div class="container">
+        <h2>📧 Stay Updated</h2>
+        <p>Subscribe for the latest in SRE and DevOps.</p>
+        <div class="newsletter-form">
+            <input type="email" id="newsletterEmail" placeholder="Your email address">
+            <button id="subscribeBtn">Subscribe</button>
+        </div>
+        <div id="newsletterMsg" class="newsletter-message"></div>
     </div>
 </section>
 
@@ -828,10 +1519,13 @@
 <!-- Footer -->
 <footer class="footer">
     <div class="container">
-        <div class="footer-links"><a onclick="scrollToSection('home')">Home</a><a onclick="scrollToSection('about')">About</a><a onclick="scrollToSection('services')">Services</a><a onclick="scrollToSection('casestudies')">Case Studies</a><a onclick="scrollToSection('contact')">Contact</a></div>
-        <div class="logo" style="margin-bottom:0.5rem;">MaVi</div>
-        <p>Site Reliability Engineering · DevOps · Cloud-Native</p>
-        <p>© 2026 Maxi Vision — reliability first.</p>
+        <div class="footer-grid">
+            <div class="footer-col"><h4>MaVi</h4><p>Engineering high-performance, ultra-reliable infrastructure for modern enterprises.</p><div class="social-links"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-github"></i></a><a href="#"><i class="fab fa-youtube"></i></a></div></div>
+            <div class="footer-col"><h4>Explore</h4><ul><li><a onclick="scrollToSection('home')">Home</a></li><li><a onclick="scrollToSection('about')">About Us</a></li><li><a onclick="scrollToSection('services')">Our Services</a></li><li><a onclick="scrollToSection('casestudies')">Case Studies</a></li></ul></div>
+            <div class="footer-col"><h4>Contact</h4><ul><li><a onclick="scrollToSection('contact')">Contact Us</a></li><li><a href="#">Support</a></li><li><a href="mailto:sre@mavi.com">sre@mavi.com</a></li><li><a href="tel:+15551234567">+1 (555) 123-4567</a></li></ul></div>
+            <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">LinkedIn</a></li><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">YouTube</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>ENGINEERED FOR RELIABILITY. BUILT FOR SCALE.</p><p>© 2026 MAVI SOLUTION PVT. LTD. ALL RIGHTS RESERVED.</p><p><a href="#">PRIVACY POLICY</a> | <a href="#">TERMS AND CONDITIONS</a></p></div>
     </div>
 </footer>
 
@@ -853,14 +1547,59 @@
     </div>
 </div>
 
+<!-- Floating Controls -->
+<div class="floating-controls">
+    <div class="theme-switch-container">
+        <div class="switch-wrapper" id="themeToggleBtn">
+            <i class="fas fa-sun switch-icon"></i>
+            <label class="switch-toggle">
+                <input type="checkbox" id="themeCheckbox">
+                <span class="slider-round"></span>
+            </label>
+            <i class="fas fa-moon switch-icon"></i>
+            <span class="switch-label" id="themeStatus">Dark</span>
+        </div>
+    </div>
+    <div class="ai-assistant">
+        <button class="ai-toggle" id="aiToggleBtn"><i class="fas fa-robot"></i> AI Assistant</button>
+        <div class="ai-chatbox" id="aiChatbox">
+            <div class="ai-header">MaVi AI Guide</div>
+            <div class="ai-messages" id="aiMessages"></div>
+            <div class="ai-input-area">
+                <input type="text" class="ai-input" id="aiInput" placeholder="Ask me...">
+                <button class="ai-send" id="aiSendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="script.js"></script>
 <script>
     // Theme Toggle
-    function toggleTheme() {
-        document.body.classList.toggle('light-theme');
-        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+    const themeCheckbox = document.getElementById('themeCheckbox');
+    const themeStatus = document.getElementById('themeStatus');
+
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-theme');
+        themeCheckbox.checked = true;
+        themeStatus.innerText = 'Light';
+    } else {
+        document.body.classList.remove('light-theme');
+        themeCheckbox.checked = false;
+        themeStatus.innerText = 'Dark';
     }
-    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-theme');
+
+    themeCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            document.body.classList.add('light-theme');
+            localStorage.setItem('theme', 'light');
+            themeStatus.innerText = 'Light';
+        } else {
+            document.body.classList.remove('light-theme');
+            localStorage.setItem('theme', 'dark');
+            themeStatus.innerText = 'Dark';
+        }
+    });
     
     // Scroll Animations
     function checkScroll() {
@@ -872,11 +1611,44 @@
     window.addEventListener('scroll', checkScroll);
     window.addEventListener('load', checkScroll);
     
-    function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+    function scrollToSection(id) { 
+        const element = document.getElementById(id);
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+    }
     
     // Quote Modal
     function openQuoteModal() { document.getElementById('quoteModal').style.display = 'flex'; }
     function closeQuoteModal() { document.getElementById('quoteModal').style.display = 'none'; }
+    
+    // Newsletter
+    const subscribeBtn = document.getElementById('subscribeBtn');
+    const newsletterEmail = document.getElementById('newsletterEmail');
+    const newsletterMsg = document.getElementById('newsletterMsg');
+
+    if (subscribeBtn) {
+        subscribeBtn.addEventListener('click', function() {
+            const email = newsletterEmail.value.trim();
+            if (!email) {
+                newsletterMsg.textContent = '❌ Please enter your email address';
+                newsletterMsg.className = 'newsletter-message error';
+                newsletterMsg.style.display = 'block';
+                setTimeout(() => newsletterMsg.style.display = 'none', 3000);
+                return;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                newsletterMsg.textContent = '❌ Please enter a valid email address';
+                newsletterMsg.className = 'newsletter-message error';
+                newsletterMsg.style.display = 'block';
+                setTimeout(() => newsletterMsg.style.display = 'none', 3000);
+                return;
+            }
+            newsletterMsg.textContent = '✅ Thank you for subscribing! You will receive our latest updates.';
+            newsletterMsg.className = 'newsletter-message success';
+            newsletterMsg.style.display = 'block';
+            newsletterEmail.value = '';
+            setTimeout(() => newsletterMsg.style.display = 'none', 5000);
+        });
+    }
     
     async function loadUserInfo() {
         const user = getCurrentUser();
@@ -927,7 +1699,61 @@
         }
     });
     
-    window.onclick = function(e) { if (e.target === document.getElementById('quoteModal')) closeQuoteModal(); };
+    window.onclick = function(e) { 
+        if (e.target === document.getElementById('quoteModal')) closeQuoteModal(); 
+    };
+    
+    // AI Assistant
+    const aiToggle = document.getElementById('aiToggleBtn');
+    const aiChat = document.getElementById('aiChatbox');
+    const aiMsgDiv = document.getElementById('aiMessages');
+    const aiInputField = document.getElementById('aiInput');
+    const aiSend = document.getElementById('aiSendBtn');
+
+    if (aiToggle) {
+        aiToggle.onclick = () => {
+            aiChat.style.display = aiChat.style.display === 'flex' ? 'none' : 'flex';
+        };
+    }
+
+    function addMsg(text, isUser = false) {
+        const msg = document.createElement('div');
+        msg.className = `ai-message ${isUser ? 'user' : 'bot'}`;
+        msg.innerHTML = text;
+        aiMsgDiv.appendChild(msg);
+        aiMsgDiv.scrollTop = aiMsgDiv.scrollHeight;
+    }
+
+    function getReply(q) {
+        const question = q.toLowerCase();
+        if (question.includes('service')) return "🔧 We offer SRE, DevOps, Cloud Migration, and Monitoring services.";
+        if (question.includes('price')) return "💰 Services start from $4,999. Contact us for a custom quote.";
+        if (question.includes('login')) return "🔐 You're logged in as a user. Click Logout to sign out.";
+        if (question.includes('contact')) return "📧 Email sre@mavi.com or call +1 (555) 123-4567.";
+        return "🤖 I'm your MaVi AI assistant! Ask me about services, pricing, or contact info.";
+    }
+
+    if (aiSend) {
+        aiSend.onclick = () => {
+            const userMsg = aiInputField.value.trim();
+            if (!userMsg) return;
+            addMsg(userMsg, true);
+            setTimeout(() => addMsg(getReply(userMsg)), 300);
+            aiInputField.value = '';
+        };
+        if (aiInputField) {
+            aiInputField.addEventListener('keypress', (e) => { 
+                if (e.key === 'Enter') aiSend.click(); 
+            });
+        }
+        addMsg("👋 Hello! I'm your MaVi AI guide. How can I help you today?");
+    }
+
+    document.addEventListener('click', function(e) {
+        if (aiChat && aiToggle && !aiChat.contains(e.target) && !aiToggle.contains(e.target)) {
+            aiChat.style.display = 'none';
+        }
+    });
     
     loadUserInfo();
     loadServices();

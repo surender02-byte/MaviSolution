@@ -1,14 +1,1039 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MaVi SRE Platform</title>
-    <script>
-        window.location.href = 'login.html';
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>MaVi | SRE Managed Services – 99.99% Uptime</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Default Dark Theme */
+    body {
+      --bg-primary: #020617;
+      --bg-secondary: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.8);
+      --bg-navbar: rgba(2, 6, 23, 0.85);
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --accent-primary: #22c55e;
+      --accent-secondary: #06b6d4;
+      --border-color: #334155;
+      --gradient: linear-gradient(135deg, #22c55e, #06b6d4);
+      --card-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+      --hero-bg: radial-gradient(circle at 10% 20%, #0f172a, #020617);
+    }
+
+    /* Light Theme Class */
+    body.light {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --bg-navbar: rgba(255, 255, 255, 0.95);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --accent-primary: #16a34a;
+      --accent-secondary: #0891b2;
+      --border-color: #e2e8f0;
+      --card-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+      --hero-bg: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ========== NAVBAR WITH ANIMATED LOGO ========== */
+    .navbar {
+      background: var(--bg-navbar);
+      backdrop-filter: blur(12px);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.3s;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* Animated Logo */
+    .animated-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 15px rgba(34,197,94,0.3);
+    }
+
+    .logo-icon i {
+      font-size: 1.3rem;
+      color: white;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 5px rgba(34,197,94,0.3); transform: scale(1); }
+      50% { box-shadow: 0 0 20px rgba(34,197,94,0.6); transform: scale(1.02); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .logo-text {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: var(--gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--accent-primary);
+      padding: 0.5rem 1.3rem;
+      border-radius: 40px;
+      background: transparent;
+      color: var(--accent-primary);
+      font-weight: 600;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* ========== SWITCH THEME TOGGLE - SMALL SIZE ========== */
+    .theme-switch-container {
+      position: fixed;
+      bottom: 100px;
+      right: 25px;
+      z-index: 998;
+    }
+
+    .switch-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      padding: 5px 10px;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+    }
+
+    .switch-wrapper:hover {
+      transform: scale(1.02);
+      border-color: var(--accent-primary);
+    }
+
+    .switch-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-primary);
+      min-width: 32px;
+    }
+
+   /* ========== SWITCH THEME TOGGLE - EXTRA SMALL SIZE ========== */
+.theme-switch-container {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  z-index: 998;
+}
+
+.switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  padding: 4px 8px;
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+}
+
+.switch-wrapper:hover {
+  transform: scale(1.02);
+  border-color: var(--accent-primary);
+}
+
+.switch-label {
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 28px;
+}
+
+/* YOUR REQUESTED SIZE */
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 16px;
+}
+
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #334155;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider-round {
+  background: var(--gradient);
+}
+
+input:checked + .slider-round:before {
+  transform: translateX(19px);
+}
+
+.switch-icon {
+  font-size: 8px;
+  color: var(--text-secondary);
+}
+
+    .slider-round {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #334155;
+      transition: 0.3s;
+      border-radius: 34px;
+    }
+
+    .slider-round:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider-round {
+      background: var(--gradient);
+    }
+
+    input:checked + .slider-round:before {
+      transform: translateX(18px);
+    }
+
+    .switch-icon {
+      font-size: 9px;
+      color: var(--text-secondary);
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      padding: 80px 0;
+      background: var(--hero-bg);
+    }
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+    .hero-content {
+      flex: 1;
+      min-width: 280px;
+    }
+    .badge {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-primary);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero h1 span {
+      background: var(--gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      max-width: 550px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--text-primary);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-3px);
+    }
+    .trusted-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+    .hero-image img {
+      max-width: 100%;
+      border-radius: 32px;
+      box-shadow: var(--card-shadow);
+    }
+
+    /* Stats */
+    .stats-section {
+      background: var(--bg-secondary);
+      padding: 60px 0;
+      text-align: center;
+    }
+    .stats-grid {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: var(--gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 0;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 3px;
+    }
+    .section-header p {
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Cards */
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 2rem;
+      width: 300px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s;
+      text-align: center;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent-primary);
+      box-shadow: var(--card-shadow);
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Showcase */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .showcase-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      overflow: hidden;
+      width: 320px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s;
+    }
+    .showcase-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--card-shadow);
+    }
+    .showcase-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .showcase-card .content {
+      padding: 1.5rem;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--gradient);
+      color: white;
+      text-align: center;
+      padding: 60px 0;
+      border-radius: 40px;
+      margin: 40px 0;
+    }
+    .cta-section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .cta-section .btn-primary {
+      background: white;
+      color: var(--accent-primary);
+      margin-top: 1rem;
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+      background: var(--bg-secondary);
+      text-align: center;
+      padding: 60px 0;
+    }
+    .newsletter-form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .newsletter-form input {
+      padding: 12px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      width: 280px;
+    }
+    .newsletter-form button {
+      background: var(--gradient);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .newsletter-message {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .newsletter-message.success {
+      color: var(--accent-primary);
+    }
+    .newsletter-message.error {
+      color: #ef4444;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-secondary);
+      padding: 3rem 0 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .footer-col h4 {
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-col ul li a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul li a:hover {
+      color: var(--accent-primary);
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .social-links a {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    .social-links a:hover {
+      color: var(--accent-primary);
+    }
+
+    /* AI Assistant */
+    .ai-assistant {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999;
+    }
+    .ai-toggle {
+      background: var(--gradient);
+      border: none;
+      border-radius: 50px;
+      padding: 10px 16px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      font-size: 12px;
+    }
+    .ai-toggle:hover {
+      transform: scale(1.05);
+    }
+    .ai-chatbox {
+      display: none;
+      position: absolute;
+      bottom: 55px;
+      right: 0;
+      width: 300px;
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      flex-direction: column;
+    }
+    .ai-header {
+      background: var(--gradient);
+      padding: 10px 14px;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .ai-messages {
+      height: 260px;
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .ai-message {
+      padding: 8px 12px;
+      border-radius: 16px;
+      max-width: 85%;
+      word-break: break-word;
+    }
+    .ai-message.user {
+      background: var(--gradient);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .ai-message.bot {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      border: 1px solid var(--border-color);
+    }
+    .ai-input-area {
+      display: flex;
+      border-top: 1px solid var(--border-color);
+    }
+    .ai-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      outline: none;
+      font-size: 12px;
+    }
+    .ai-send {
+      background: var(--gradient);
+      border: none;
+      color: white;
+      padding: 0 14px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-grid { flex-direction: column; text-align: center; }
+      .hero-buttons { justify-content: center; }
+      .nav-inner { flex-direction: column; }
+      .ai-chatbox { width: 280px; right: -10px; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .social-links { justify-content: center; }
+      .theme-switch-container { bottom: 90px; right: 15px; }
+      .switch-wrapper { padding: 4px 8px; gap: 4px; }
+      .switch-toggle { width: 32px; height: 16px; }
+      .slider-round:before { height: 12px; width: 12px; left: 2px; bottom: 2px; }
+      input:checked + .slider-round:before { transform: translateX(16px); }
+      .switch-label { font-size: 9px; min-width: 28px; }
+      .switch-icon { font-size: 8px; }
+    }
+  </style>
 </head>
 <body>
-    <p>Redirecting to login...</p>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <div class="animated-logo" onclick="window.location.href='#home'">
+      <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+      <div class="logo-text">MaVi</div>
+    </div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#casestudies">Case Studies</a>
+      <a href="#contact">Contact</a>
+      <button class="btn-outline" onclick="window.location.href='login.html'">Sign In →</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <div class="badge">⚡ RELIABILITY PROTOCOLS ACTIVE</div>
+      <h1>We help startups & businesses achieve <span>99.99% uptime</span> with our SRE managed services.</h1>
+      <p>Maxi Vision bridges the gap between Web Development and Site Reliability. We engineer ultra-fast, secure, and scalable platforms trusted by startups and enterprises.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="window.location.href='login.html'">Secure Your Infrastructure →</button>
+        <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">View Tools</button>
+      </div>
+      <div class="trusted-text">TRUSTED BY STARTUPS AND ENTERPRISES FOR MISSION-CRITICAL INFRASTRUCTURE.</div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Startup team">
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div><div class="stat-number">99.99%</div><div>Uptime SLA</div></div>
+      <div><div class="stat-number">↓85%</div><div>MTTR Reduction</div></div>
+      <div><div class="stat-number">24/7</div><div>Global Support</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="section-header"><h2>Corporate DNA</h2><p>Who we are and what drives us</p></div>
+    <div style="background:var(--bg-card); border-radius:28px; padding:2rem; margin-bottom:2rem; border:1px solid var(--border-color);">
+      <p style="font-size:1.2rem; color:var(--accent-primary);">"Maxi Vision is a high-performance Site Reliability Engineering (SRE) and Web Development startup that bridges the gap between 'shipping code' and 'staying online.' We specialize in building and protecting digital infrastructure for scaling startups and established enterprises."</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">⚙️</div><h3>Automated Operations</h3><p>Eliminating manual 'toil' through intelligent scripts and self-healing systems.</p></div>
+      <div class="card"><div class="card-icon">📈</div><h3>Scalable Architecture</h3><p>Ensuring your systems grow as fast as your user base without performance lag.</p></div>
+      <div class="card"><div class="card-icon">🔒</div><h3>Maximum Uptime</h3><p>Engineering reliability into the very fabric of your digital ecosystem.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="section" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header"><h2>Our Expertise</h2><p>Future-proof engineering & managed services</p></div>
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">🛡️</div><h3>SRE as a Service</h3><p>Proactive incident management, 24/7 on-call response.</p></div>
+      <div class="card"><div class="card-icon">📡</div><h3>Monitoring & Observability</h3><p>Real-time dashboards and intelligent logging.</p></div>
+      <div class="card"><div class="card-icon">🔄</div><h3>DevOps Automation</h3><p>High-performance CI/CD pipelines.</p></div>
+      <div class="card"><div class="card-icon">☁️</div><h3>CloudOps</h3><p>Cost optimization and dynamic scaling.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase -->
+<section class="section">
+  <div class="container">
+    <div class="section-header"><h2>Built for Modern Startups</h2><p>From idea to scale — we power your growth</p></div>
+    <div class="showcase-grid">
+      <div class="showcase-card"><img src="https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Team"><div class="content"><h3>Collaborative Teams</h3><p>Empower your engineering teams.</p></div></div>
+      <div class="showcase-card"><img src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cloud"><div class="content"><h3>Cloud-Native</h3><p>Scale effortlessly with cloud-native solutions.</p></div></div>
+      <div class="showcase-card"><img src="https://images.pexels.com/photos/5468193/pexels-photo-5468193.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Security"><div class="content"><h3>Security First</h3><p>Proactive monitoring for zero downtime.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Case Studies -->
+<section id="casestudies" class="section" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header"><h2>Operational Success</h2><p>Before SRE vs After Monitronix</p></div>
+    <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;">
+      <div class="card"><h3 style="color:#f87171;">📉 BEFORE_SRE</h3><p>"450+ alerts during peak hours. Engineer burnout."</p></div>
+      <div class="card" style="border-color:var(--accent-primary);"><h3 style="color:var(--accent-primary);">🚀 AFTER_MONITRONIX</h3><p>"Intelligent noise reduction. Zero engineer fatigue."</p><div style="display:flex; gap:1rem; margin-top:1rem;"><div><div class="stat-number" style="font-size:1.5rem;">↓85%</div><div>MTTR</div></div><div><div class="stat-number" style="font-size:1.5rem;">↓99%</div><div>Alert</div></div><div><div class="stat-number" style="font-size:1.5rem;">ZERO</div><div>Impact</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="container">
+  <div class="cta-section">
+    <h2>Ready to achieve 99.99% uptime?</h2>
+    <p>Join leading startups that trust MaVi for infrastructure reliability.</p>
+    <button class="btn-primary" onclick="window.location.href='login.html'">Secure Your Infrastructure →</button>
+  </div>
+</div>
+
+<!-- Contact -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="section-header"><h2>Talk to our SRE team today</h2><p>24×7 coverage, global support, onboarding within 3–5 days.</p></div>
+    <div style="text-align:center;"><button class="btn-primary" onclick="window.location.href='login.html'">Request Consultation →</button></div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-section">
+  <div class="container">
+    <h2>📧 Stay Updated</h2>
+    <p>Subscribe for the latest in SRE and DevOps.</p>
+    <div class="newsletter-form">
+      <input type="email" id="newsletterEmail" placeholder="Your email address">
+      <button id="subscribeBtn">Subscribe</button>
+    </div>
+    <div id="newsletterMsg" class="newsletter-message"></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>MaVi</h4><p style="font-size:0.85rem;">Engineering high-performance infrastructure.</p><div class="social-links"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-github"></i></a></div></div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="#home">Home</a></li><li><a href="#about">About Us</a></li><li><a href="#services">Services</a></li><li><a href="#casestudies">Case Studies</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#contact">Contact Us</a></li><li><a href="#">Support</a></li><li><a href="mailto:sre@mavi.com">sre@mavi.com</a></li><li><a href="tel:+15551234567">+1 (555) 123-4567</a></li></ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul><li><a href="#">LinkedIn</a></li><li><a href="#">Twitter</a></li><li><a href="#">GitHub</a></li><li><a href="#">YouTube</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>ENGINEERED FOR RELIABILITY. BUILT FOR SCALE.</p><p>© 2026 MAVI SOLUTION PVT. LTD. ALL RIGHTS RESERVED.</p><p><a href="#">PRIVACY POLICY</a> | <a href="#">TERMS AND CONDITIONS</a></p></div>
+  </div>
+</footer>
+
+<!-- Switch Theme Toggle - SMALL SIZE -->
+<div class="theme-switch-container">
+  <div class="switch-wrapper" id="themeToggleBtn">
+    <i class="fas fa-sun switch-icon"></i>
+    <label class="switch-toggle">
+      <input type="checkbox" id="themeCheckbox">
+      <span class="slider-round"></span>
+    </label>
+    <i class="fas fa-moon switch-icon"></i>
+    <span class="switch-label" id="themeStatus">Dark</span>
+  </div>
+</div>
+
+<!-- AI Assistant -->
+<div class="ai-assistant">
+  <button class="ai-toggle" id="aiToggleBtn"><i class="fas fa-robot"></i> AI Assistant</button>
+  <div class="ai-chatbox" id="aiChatbox">
+    <div class="ai-header"><i class="fas fa-robot"></i> MaVi AI Guide</div>
+    <div class="ai-messages" id="aiMessages"></div>
+    <div class="ai-input-area"><input type="text" class="ai-input" id="aiInput" placeholder="Ask me..."><button class="ai-send" id="aiSendBtn">Send</button></div>
+  </div>
+</div>
+
+<script>
+  // ========== THEME TOGGLE ==========
+  const themeCheckbox = document.getElementById('themeCheckbox');
+  const themeStatus = document.getElementById('themeStatus');
+
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light');
+    themeCheckbox.checked = true;
+    themeStatus.innerText = 'Light';
+  } else {
+    document.body.classList.remove('light');
+    themeCheckbox.checked = false;
+    themeStatus.innerText = 'Dark';
+  }
+
+  themeCheckbox.addEventListener('change', function() {
+    if (this.checked) {
+      document.body.classList.add('light');
+      localStorage.setItem('theme', 'light');
+      themeStatus.innerText = 'Light';
+    } else {
+      document.body.classList.remove('light');
+      localStorage.setItem('theme', 'dark');
+      themeStatus.innerText = 'Dark';
+    }
+  });
+
+  // ========== NEWSLETTER ==========
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  const newsletterEmail = document.getElementById('newsletterEmail');
+  const newsletterMsg = document.getElementById('newsletterMsg');
+
+  subscribeBtn.addEventListener('click', function() {
+    const email = newsletterEmail.value.trim();
+    if (!email) {
+      newsletterMsg.textContent = '❌ Please enter your email address';
+      newsletterMsg.className = 'newsletter-message error';
+      newsletterMsg.style.display = 'block';
+      setTimeout(() => { newsletterMsg.style.display = 'none'; }, 3000);
+      return;
+    }
+    if (!email.includes('@') || !email.includes('.')) {
+      newsletterMsg.textContent = '❌ Please enter a valid email address';
+      newsletterMsg.className = 'newsletter-message error';
+      newsletterMsg.style.display = 'block';
+      setTimeout(() => { newsletterMsg.style.display = 'none'; }, 3000);
+      return;
+    }
+    newsletterMsg.textContent = '✅ Thank you for subscribing!';
+    newsletterMsg.className = 'newsletter-message success';
+    newsletterMsg.style.display = 'block';
+    newsletterEmail.value = '';
+    setTimeout(() => { newsletterMsg.style.display = 'none'; }, 5000);
+  });
+
+  // ========== AI ASSISTANT ==========
+  const aiToggle = document.getElementById('aiToggleBtn');
+  const aiChat = document.getElementById('aiChatbox');
+  const aiMsgDiv = document.getElementById('aiMessages');
+  const aiInputField = document.getElementById('aiInput');
+  const aiSend = document.getElementById('aiSendBtn');
+
+  if (aiToggle) {
+    aiToggle.onclick = () => {
+      aiChat.style.display = aiChat.style.display === 'flex' ? 'none' : 'flex';
+    };
+  }
+
+  function addMsg(text, isUser = false) {
+    const msg = document.createElement('div');
+    msg.className = `ai-message ${isUser ? 'user' : 'bot'}`;
+    msg.innerHTML = text;
+    aiMsgDiv.appendChild(msg);
+    aiMsgDiv.scrollTop = aiMsgDiv.scrollHeight;
+  }
+
+  function getReply(q) {
+    const question = q.toLowerCase();
+    if (question.includes('service')) return "🔧 We offer SRE, DevOps, Cloud Migration services.";
+    if (question.includes('price')) return "💰 Services start from $4,999. Contact us for a quote.";
+    if (question.includes('login')) return "🔐 Click 'Sign In' at top right to access your account.";
+    if (question.includes('contact')) return "📧 Email sre@mavi.com or call +1 (555) 123-4567.";
+    return "🤖 I'm your MaVi AI assistant! Ask me about services, pricing, login, or contact info.";
+  }
+
+  if (aiSend) {
+    aiSend.onclick = () => {
+      const userMsg = aiInputField.value.trim();
+      if (!userMsg) return;
+      addMsg(userMsg, true);
+      setTimeout(() => addMsg(getReply(userMsg)), 300);
+      aiInputField.value = '';
+    };
+    if (aiInputField) {
+      aiInputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') aiSend.click(); });
+    }
+    addMsg("👋 Hello! I'm your MaVi AI guide. How can I help you today?");
+  }
+
+  document.addEventListener('click', function(e) {
+    if (aiChat && aiToggle && !aiChat.contains(e.target) && !aiToggle.contains(e.target)) {
+      aiChat.style.display = 'none';
+    }
+  });
+</script>
+
 </body>
 </html>
