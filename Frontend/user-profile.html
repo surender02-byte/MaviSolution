@@ -4,20 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile | MaVi</title>
+    <link rel="icon" href="letter-m (1).png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #020617;
+            color: #e2e8f0;
+        }
+        .navbar {
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #22c55e, #06b6d4);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #1e293b;
+            padding: 6px 16px;
+            border-radius: 40px;
+        }
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .profile-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        .profile-card {
+            background: #1e293b;
+            border-radius: 32px;
+            padding: 2rem;
+            border: 1px solid #334155;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 1rem auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #22c55e;
+        }
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #334155;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #94a3b8;
+            width: 120px;
+        }
+        .info-value {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1.5px solid #22c55e;
+            color: #22c55e;
+            padding: 4px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #06b6d4);
+            border: none;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        .edit-input {
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            width: 200px;
+        }
+        .logout-under-profile {
+            margin-top: 2rem;
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #334155;
+        }
+        .btn-logout-profile {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-logout-profile:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: white;
+            z-index: 2000;
+        }
+        .toast.success { background: #22c55e; }
+        .toast.error { background: #ef4444; }
+    </style>
 </head>
 <body>
 
 <nav class="navbar">
-    <div class="nav-inner">
-        <div class="logo">MaVi</div>
-        <div class="nav-links">
-            <a href="user-dashboard.html">Home</a>
-            <div class="user-info">
-                <span class="user-name" id="userNameDisplay">User</span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            </div>
+    <div class="logo">MaVi</div>
+    <div class="nav-links">
+        <a href="user-dashboard.html" style="color:#e2e8f0; text-decoration:none;">Home</a>
+        <div class="user-info">
+            <span class="user-name" id="userNameDisplay">User</span>
+            <button class="logout-btn" onclick="logoutFromNav()">Logout</button>
         </div>
     </div>
 </nav>
@@ -25,17 +184,17 @@
 <div class="profile-container">
     <div class="profile-card">
         <div class="profile-avatar" id="profileAvatar">U</div>
-        <h2 id="profileName" style="text-align: center;">User Name</h2>
+        <h2 id="profileName">User Name</h2>
         <div class="profile-info">
             <div class="info-row">
                 <div class="info-label">Name</div>
                 <div class="info-value">
                     <span id="displayName"></span>
-                    <button class="btn-secondary" onclick="enableEdit('name')" style="margin-left: 1rem; padding: 4px 12px;">Edit</button>
+                    <button class="btn-secondary" onclick="enableEdit('name')">Edit</button>
                     <div id="editNameField" style="display: none; margin-top: 10px;">
                         <input type="text" id="editName" class="edit-input">
-                        <button onclick="saveName()" class="btn-primary" style="margin-top: 8px;">Save</button>
-                        <button onclick="cancelEdit('name')" class="btn-secondary" style="margin-top: 8px;">Cancel</button>
+                        <button onclick="saveName()" class="btn-primary">Save</button>
+                        <button onclick="cancelEdit('name')" class="btn-secondary">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -47,12 +206,12 @@
                 <div class="info-label">Password</div>
                 <div class="info-value">
                     <span>••••••••</span>
-                    <button class="btn-secondary" onclick="enableEdit('password')" style="margin-left: 1rem; padding: 4px 12px;">Change</button>
+                    <button class="btn-secondary" onclick="enableEdit('password')">Change</button>
                     <div id="editPasswordField" style="display: none; margin-top: 10px;">
                         <input type="password" id="editPassword" class="edit-input" placeholder="New password">
                         <input type="password" id="confirmPassword" class="edit-input" placeholder="Confirm password" style="margin-top: 8px;">
-                        <button onclick="savePassword()" class="btn-primary" style="margin-top: 8px;">Save</button>
-                        <button onclick="cancelEdit('password')" class="btn-secondary" style="margin-top: 8px;">Cancel</button>
+                        <button onclick="savePassword()" class="btn-primary">Save</button>
+                        <button onclick="cancelEdit('password')" class="btn-secondary">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -61,24 +220,71 @@
                 <div class="info-value" id="memberSince">Today</div>
             </div>
         </div>
+
+        <!-- ADDED LOGOUT BUTTON UNDER PROFILE (as requested) -->
+        <div class="logout-under-profile">
+            <button class="btn-logout-profile" onclick="logoutFromProfile()"><i class="fas fa-sign-out-alt"></i> Logout from account</button>
+        </div>
     </div>
 </div>
 
-<script src="script.js"></script>
 <script>
+    // ---------- MOCK DATABASE & API (replace with your real backend) ----------
+    let MOCK_USERS = [
+        { id: 1, fullname: "John Doe", email: "john@example.com", password: "123456", role: "USER", createdAt: new Date().toISOString() }
+    ];
+
+    function getCurrentUser() {
+        let stored = localStorage.getItem('currentUser');
+        if (stored) return JSON.parse(stored);
+        // fallback demo user (so profile never disappears)
+        let demoUser = MOCK_USERS[0];
+        localStorage.setItem('currentUser', JSON.stringify(demoUser));
+        return demoUser;
+    }
+
+    async function updateUserProfile(userId, updates) {
+        let user = getCurrentUser();
+        if (user.id === userId) {
+            if (updates.fullname) user.fullname = updates.fullname;
+            if (updates.password) user.password = updates.password;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            // also update in MOCK_USERS
+            let idx = MOCK_USERS.findIndex(u => u.id === userId);
+            if (idx !== -1) MOCK_USERS[idx] = { ...MOCK_USERS[idx], ...updates };
+            return { success: true };
+        }
+        return { success: false, error: "User not found" };
+    }
+
+    function showToast(msg, type) {
+        let toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function getInitials(name) {
+        return name ? name.charAt(0).toUpperCase() : 'U';
+    }
+
+    // ---------- Profile UI ----------
     async function loadProfile() {
-        const user = checkAuth();
-        if (!user) return;
+        const user = getCurrentUser();
+        if (!user) {
+            window.location.href = 'login.html';
+            return;
+        }
         document.getElementById('profileName').innerHTML = user.fullname;
         document.getElementById('displayName').innerHTML = user.fullname;
         document.getElementById('displayEmail').innerHTML = user.email;
         document.getElementById('userNameDisplay').innerHTML = user.fullname;
         document.getElementById('profileAvatar').innerHTML = getInitials(user.fullname);
-        document.getElementById('memberSince').innerHTML = new Date().toLocaleDateString();
+        document.getElementById('memberSince').innerHTML = new Date(user.createdAt || Date.now()).toLocaleDateString();
     }
-    
+
     let currentEditing = null;
-    
     function enableEdit(field) {
         currentEditing = field;
         if (field === 'name') {
@@ -89,7 +295,6 @@
             document.getElementById('editPasswordField').style.display = 'block';
         }
     }
-    
     function cancelEdit(field) {
         if (field === 'name') {
             document.getElementById('displayName').style.display = 'block';
@@ -101,13 +306,9 @@
         }
         currentEditing = null;
     }
-    
     async function saveName() {
         const newName = document.getElementById('editName').value.trim();
-        if (!newName) {
-            showToast('Name cannot be empty', 'error');
-            return;
-        }
+        if (!newName) { showToast('Name cannot be empty', 'error'); return; }
         const user = getCurrentUser();
         const result = await updateUserProfile(user.id, { fullname: newName });
         if (result.success) {
@@ -121,18 +322,11 @@
             showToast(result.error || 'Update failed', 'error');
         }
     }
-    
     async function savePassword() {
         const newPassword = document.getElementById('editPassword').value;
         const confirm = document.getElementById('confirmPassword').value;
-        if (newPassword.length < 6) {
-            showToast('Password must be at least 6 characters', 'error');
-            return;
-        }
-        if (newPassword !== confirm) {
-            showToast('Passwords do not match', 'error');
-            return;
-        }
+        if (newPassword.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
+        if (newPassword !== confirm) { showToast('Passwords do not match', 'error'); return; }
         const user = getCurrentUser();
         const result = await updateUserProfile(user.id, { password: newPassword });
         if (result.success) {
@@ -142,7 +336,18 @@
             showToast(result.error || 'Update failed', 'error');
         }
     }
-    
+
+    // Logout functions
+    function logoutFromNav() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    }
+    function logoutFromProfile() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    }
+
+    // Initialize
     loadProfile();
 </script>
 </body>
